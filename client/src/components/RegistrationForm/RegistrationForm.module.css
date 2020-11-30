@@ -1,0 +1,30 @@
+.registrationForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 500px;
+    margin: 100px auto 0;
+    border: 1px solid grey;
+}
+.registrationForm *{
+    width: 80%;
+}
+.registrationForm button{
+    width: 80px;
+    /*background-color: green;*/
+    margin: 20px 0;
+}
+.registrationForm button:enabled{
+    width: 80px;
+    background-color: green;
+    cursor: pointer;
+    margin: 20px 0;
+}
+.checkbox {
+    width: 30px;
+}
+.errorNotification{
+    background-color: red;
+}
