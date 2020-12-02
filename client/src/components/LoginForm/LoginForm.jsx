@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import * as styles from "./LoginForm.module.css";
 
@@ -6,14 +7,22 @@ const LoginForm = () => {
   const [loginOrEmail, setLoginOrEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    // e.preventDefault();
+  const history = useHistory();
 
-    axios.post("http://localhost:3001/login", { loginOrEmail, password });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("http://localhost:3001/login", { loginOrEmail, password })
+      .then((res) => {
+        if (res) localStorage.setItem("token", res.data);
+
+        history.push("/home");
+      });
   };
 
   return (
-    <form className={styles.loginForm} onSubmit={e => handleSubmit(e)}>
+    <form className={styles.loginForm} onSubmit={(e) => handleSubmit(e)}>
       <label>Login or email</label>
       <input
         type="text"
@@ -23,7 +32,7 @@ const LoginForm = () => {
 
       <label>Password</label>
       <input
-        type="password"
+        type="Password"
         placeholder={"password"}
         onChange={(e) => setPassword(e.target.value)}
       />

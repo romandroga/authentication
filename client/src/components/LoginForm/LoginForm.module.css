@@ -1,15 +1,36 @@
-.loginForm{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+    border-radius: 5px;
 
-    width: 500px;
-    margin: 100px auto 0;
-    border: 1px solid grey;
-    padding: 50px 0;
+  width: 500px;
+  margin: 100px auto 0;
+  padding: 50px 0;
+  box-shadow: 5px 5px 22px 1px rgba(0, 0, 0, 0.7);
+}
+
+.loginForm button {
+  margin-top: 25px;
+}
+
+.loginForm input {
+    height: 35px;
+    font-size: 20px;
+    padding-left: 5px;
+    border: none;
+    border-bottom: 2px solid black;
+    margin-bottom: 10px;
 }
 
 .loginForm button{
-    margin-top: 25px;
+    width: 80px;
+    height: 30px;
+    background-color: green;
+    cursor: pointer;
+    margin: 15px 0 0 0;
+    border-radius: 5px;
+    color: white;
 }
+

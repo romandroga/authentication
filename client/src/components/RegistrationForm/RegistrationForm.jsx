@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import * as styles from "./RegistrationForm.module.css";
 
@@ -12,8 +13,9 @@ const RegistrationForm = () => {
   const [country, setCountry] = useState("Ukraine");
   const [terms, setTerms] = useState(false);
   const [countriesList, setCountriesList] = useState([]);
-
   const [error, setError] = useState("");
+
+  const history = useHistory();
 
   useEffect(() => {
     return axios.get("http://localhost:3001/countries/get").then((res) => {
@@ -21,10 +23,11 @@ const RegistrationForm = () => {
     });
   }, []);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setError("");
+
     await axios
       .post("http://localhost:3001/registration", {
         email: email,
@@ -38,8 +41,10 @@ const RegistrationForm = () => {
       .then((res) => {
         setError(res.data.message);
 
-      });
+        localStorage.setItem("token", res.data);
 
+        history.push("/home");
+      });
   };
 
   return (
@@ -47,7 +52,6 @@ const RegistrationForm = () => {
       className={styles.registrationForm}
       onSubmit={(e) => {
         handleSubmit(e);
-        localStorage.setItem("isUserRegistered", "true");
       }}
     >
       <h1>Registration form</h1>
@@ -108,13 +112,13 @@ const RegistrationForm = () => {
         })}
       </select>
 
-      <div>
+      <div className={styles.termsWrapper}>
         <input
           className={styles.checkbox}
           type="checkbox"
           id="terms"
           name="terms"
-          onChange={(e) => setTerms(!terms)}
+          onChange={() => setTerms(!terms)}
         />
         <label htmlFor="terms">I am agree with terms and conditions</label>
       </div>

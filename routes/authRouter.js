@@ -1,12 +1,13 @@
-const { Router } = require('express');
-const bcrypt = require('bcrypt');
-const db = require('../db/db');
+const { Router } = require("express");
+const bcrypt = require("bcrypt");
+const db = require("../db/db");
+const randtoken = require("rand-token");
 
 const saltRounds = 10;
 
 const authRouter = Router();
 
-authRouter.post('/registration', (req, res) => {
+authRouter.post("/registration", (req, res) => {
   const {
     email,
     login,
@@ -17,8 +18,10 @@ authRouter.post('/registration', (req, res) => {
     timestamp,
   } = req.body;
 
+  const token = randtoken.generate(16);
+
   db.query(
-    'SELECT * FROM users WHERE (email = ?) OR (login = ?)',
+    "SELECT * FROM users WHERE (email = ?) OR (login = ?)",
     [email, login],
     (err, result) => {
       if (err) throw err;
@@ -26,60 +29,55 @@ authRouter.post('/registration', (req, res) => {
       if (result.length > 0) {
         return res.send({
           message:
-            'Username or password is already in use, please create a new one',
+            "Username or password is already in use, please create a new one",
         });
       }
 
       bcrypt.hash(password, saltRounds, (err, hash) => {
         db.query(
-          'INSERT INTO users (email, login, realName, password, birthDate, country, timestamp) VALUES (?,?,?,?,?,?,?)',
-          [email, login, realName, hash, birthDate, country, timestamp],
+          "INSERT INTO users (email, login, realName, password, birthDate, country, timestamp, token) VALUES (?,?,?,?,?,?,?,?)",
+          [email, login, realName, hash, birthDate, country, timestamp, token],
           (err, result) => {
             if (err) throw err;
 
-            req.session.user = {email: email, name: realName} /////////?????
-
-            // history.push('http://localhost:3000/')
-            res.redirect('/')
-
-            return res.send(result);
-          },
+            return res.send(token);
+          }
         );
       });
-    },
+    }
   );
 });
 
-authRouter.post('/login', (req, res) => {
+authRouter.post("/login", (req, res) => {
   const { loginOrEmail, password } = req.body;
 
   db.query(
-    'SELECT * FROM users WHERE(email = ?) OR (login = ?)',
+    "SELECT * FROM users WHERE(email = ?) OR (login = ?)",
     [loginOrEmail, loginOrEmail],
     (err, result) => {
-      if (err) res.send(err);
+      if (err) throw err;
 
       if (result.length > 0) {
         const hash = bcrypt.compareSync(password, result[0].password);
         if (hash) {
-          req.session.user = {email: result[0].email, name: result[0].realName};
-          return res.send(result);
+          return res.send(result[0].token);
         }
 
-        return res.send({ message: 'wrong password' });
+        return res.status(404).send({ message: "Wrong password" });
       }
-      return res.send({ message: 'User is not exist' });
-    },
+      return res.status(404).send({ message: "User is not exist" });
+    }
   );
 });
 
-authRouter.get('/login', (req, res) =>{
-  // if(req.session.user){
-    return res.send({loggedIn: true, user: req.session.user})
-  // }
-  // return res.send({loggedIn: false})
-})
+authRouter.post("/registration/confirm", (req, res) => {
+  const token = req.body.token;
 
+  db.query("SELECT * FROM users WHERE (token = ?)", [token], (err, result) => {
+    if (err) throw err;
 
+    return res.send({ email: result[0].email, name: result[0].realName });
+  });
+});
 
 module.exports = authRouter;
