@@ -1,10 +1,11 @@
 const mysql = require('mysql');
+const config = require('../config')
 
 const db = mysql.createConnection({
-  user: 'root',
-  host: 'localhost',
-  password: 'password',
-  database: 'authentication',
+  user: config.user,
+  host: config.host,
+  password: config.password,
+  database: config.database,
 });
 
 module.exports = db;

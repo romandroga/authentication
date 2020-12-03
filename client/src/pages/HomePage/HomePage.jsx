@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import * as styles from "./HomePage.module.css";
 
 const HomePage = () => {
   const [userData, setUserData] = useState(null);
 
   const history = useHistory();
 
-  const token = localStorage.getItem("token");
+  const token = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
     if (!token) history.push("/login");
@@ -27,11 +28,17 @@ const HomePage = () => {
   return (
     userData && (
       <>
-        <h1>Home page</h1>
-        <p>Username : {userData.name}</p>
-        <p>Email : {userData.email}</p>
+        <div className={styles.wrapper}>
+          <h1>Home page</h1>
+          <p>
+            Username : <span>{userData.name}</span>{" "}
+          </p>
+          <p>
+            Email : <span>{userData.email}</span>{" "}
+          </p>
 
-        <button onClick={() => handleLogout()}>Logout</button>
+          <button onClick={() => handleLogout()}>Logout</button>
+        </div>
       </>
     )
   );

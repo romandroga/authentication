@@ -8,6 +8,7 @@
   box-shadow: 5px 5px 22px 1px rgba(0, 0, 0, 0.7);
   border-radius: 5px;
 }
+
 .registrationForm * {
   width: 80%;
 }
@@ -21,6 +22,9 @@
   margin-bottom: 10px;
 }
 
+.registrationForm input:focus{
+  outline: none;
+}
 
 .registrationForm select {
   height: 35px;
@@ -34,8 +38,6 @@
   font-size: 20px;
   height: 40px;
   border-radius: 5px;
-  color: white;
-
   outline: none;
 }
 
@@ -43,32 +45,35 @@
   font-size: 18px;
 }
 
-.registrationForm button:hover {
-  transform: scale(1.02);
-}
-
 .registrationForm button:enabled {
   width: 80px;
   background-color: green;
   cursor: pointer;
   margin: 20px 0;
+  color: white;
 }
+
+.registrationForm button:enabled:hover {
+  transform: scale(1.02);
+}
+
 .checkbox {
   width: 30px;
   height: 10px;
 }
+
 .errorNotification {
   background-color: red;
   border-radius: 5px;
   color: white;
+  display: flex;
+  justify-content: center;
 }
+
 .termsWrapper {
   display: flex;
   align-items: center;
   justify-content: left;
   font-weight: bold;
   font-size: 16px;
-}
-label {
-  text-transform: capitalize;
 }

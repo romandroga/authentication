@@ -3,14 +3,11 @@ const cors = require("cors");
 const authRouter = require("./routes/authRouter");
 const countriesRouter = require("./routes/countriesRouter");
 
-
-
 const server = async (port, callback) => {
   try {
     const app = express();
 
     app.use(express.json());
-
 
     app.use(
       cors({
@@ -19,7 +16,6 @@ const server = async (port, callback) => {
         credentials: true,
       })
     );
-
 
     app.use("/", authRouter);
     app.use("/countries", countriesRouter);

@@ -3,9 +3,9 @@ const bcrypt = require("bcrypt");
 const db = require("../db/db");
 const randtoken = require("rand-token");
 
-const saltRounds = 10;
-
 const authRouter = Router();
+
+const saltRounds = 10;
 
 authRouter.post("/registration", (req, res) => {
   const {
@@ -76,7 +76,7 @@ authRouter.post("/registration/confirm", (req, res) => {
   db.query("SELECT * FROM users WHERE (token = ?)", [token], (err, result) => {
     if (err) throw err;
 
-    return res.send({ email: result[0].email, name: result[0].realName });
+    return res.send({ email: result[0]?.email, name: result[0]?.realName });
   });
 });
 

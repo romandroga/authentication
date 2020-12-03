@@ -15,22 +15,21 @@ const LoginForm = () => {
     axios
       .post("http://localhost:3001/login", { loginOrEmail, password })
       .then((res) => {
-        if (res) localStorage.setItem("token", res.data);
-
+        if (res) {
+          localStorage.setItem("token", JSON.stringify(res.data));
+        }
         history.push("/home");
       });
   };
 
   return (
     <form className={styles.loginForm} onSubmit={(e) => handleSubmit(e)}>
-      <label>Login or email</label>
       <input
         type="text"
         placeholder={"Login or email"}
         onChange={(e) => setLoginOrEmail(e.target.value)}
       />
 
-      <label>Password</label>
       <input
         type="Password"
         placeholder={"password"}

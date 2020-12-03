@@ -4,7 +4,6 @@ import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import HomePage from "./pages/HomePage/HomePage";
 
-
 const App = () => {
   return (
     <BrowserRouter>

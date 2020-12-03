@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-
 import * as styles from "./RegistrationForm.module.css";
 
 const RegistrationForm = () => {
@@ -39,11 +38,13 @@ const RegistrationForm = () => {
         timestamp: Date.now(),
       })
       .then((res) => {
-        setError(res.data.message);
+        if (res.data.message) {
+          return setError(res.data.message);
+        }
 
-        localStorage.setItem("token", res.data);
+        localStorage.setItem("token", JSON.stringify(res.data));
 
-        history.push("/home");
+        return history.push("/home");
       });
   };
 
@@ -57,28 +58,24 @@ const RegistrationForm = () => {
       <h1>Registration form</h1>
       <p>Please fill in all fields</p>
 
-      <label>email</label>
       <input
         type="email"
         placeholder={"Email..."}
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      <label>login</label>
       <input
         type="text"
         placeholder={"Login..."}
         onChange={(e) => setLogin(e.target.value)}
       />
 
-      <label>real name</label>
       <input
         type="text"
         placeholder={"Real name..."}
         onChange={(e) => setRealName(e.target.value)}
       />
 
-      <label>password</label>
       <input
         type="password"
         placeholder={"Password..."}
@@ -94,7 +91,6 @@ const RegistrationForm = () => {
         }}
       />
 
-      <label>country</label>
       <select
         name="country"
         id="country"
