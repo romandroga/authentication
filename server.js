@@ -8,7 +8,6 @@ const server = async (port, callback) => {
   try {
     const app = express();
 
-    app.use(express.static(path.join(__dirname, "client/build")));
 
     app.use(express.json());
 
@@ -16,6 +15,14 @@ const server = async (port, callback) => {
 
     app.use("/", authRouter);
     app.use("/countries", countriesRouter);
+
+    if (process.env.NODE_ENV === "production") {
+      app.use(express.static(path.join(__dirname, "client/build")));
+
+      app.get("*", function (req, res) {
+        res.sendFile(path.join(__dirname, "client/build", "index.html"));
+      });
+    }
 
     app.listen(port, callback);
   } catch (e) {
