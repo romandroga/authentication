@@ -10,13 +10,7 @@ const server = async (port, callback) => {
 
     app.use(express.json());
 
-    app.use(
-      cors({
-        origin: ["http://localhost:3000"],
-        methods: ["GET", "POST"],
-        credentials: true,
-      })
-    );
+    app.use(cors());
 
     app.use("/", authRouter);
     app.use("/countries", countriesRouter);

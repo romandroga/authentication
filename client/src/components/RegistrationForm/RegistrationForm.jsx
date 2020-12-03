@@ -3,6 +3,8 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import * as styles from "./RegistrationForm.module.css";
 
+const BASE_URL = "https://morning-everglades-17303.herokuapp.com"
+
 const RegistrationForm = () => {
   const [email, setEmail] = useState("");
   const [login, setLogin] = useState("");
@@ -17,7 +19,10 @@ const RegistrationForm = () => {
   const history = useHistory();
 
   useEffect(() => {
-    return axios.get("http://localhost:3001/countries/get").then((res) => {
+
+
+
+    return axios.get(`${BASE_URL}/countries/get`).then((res) => {
       setCountriesList(res.data);
     });
   }, []);
@@ -28,7 +33,7 @@ const RegistrationForm = () => {
     setError("");
 
     await axios
-      .post("http://localhost:3001/registration", {
+      .post(`${BASE_URL}/registration`, {
         email: email,
         login: login,
         realName: realName,

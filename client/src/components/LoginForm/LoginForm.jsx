@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import * as styles from "./LoginForm.module.css";
 
+const BASE_URL = "https://morning-everglades-17303.herokuapp.com"
+
 const LoginForm = () => {
   const [loginOrEmail, setLoginOrEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,7 +15,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/login", { loginOrEmail, password })
+      .post(`${BASE_URL}/login`, { loginOrEmail, password })
       .then((res) => {
         if (res) {
           localStorage.setItem("token", JSON.stringify(res.data));
