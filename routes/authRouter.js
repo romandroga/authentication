@@ -76,7 +76,7 @@ authRouter.post("/registration/confirm", (req, res) => {
   db.query("SELECT * FROM users WHERE (token = ?)", [token], (err, result) => {
     if (err) throw err;
 
-    return res.send({ email: result[0]?.email, name: result[0]?.realName });
+    return res.send(result)
   });
 });
 

@@ -16,9 +16,9 @@ const HomePage = () => {
     axios
       .post("http://localhost:3001/registration/confirm", { token })
       .then((res) => {
-        setUserData(res.data);
+        setUserData(res.data[0]);
       });
-  });
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -31,7 +31,7 @@ const HomePage = () => {
         <div className={styles.wrapper}>
           <h1>Home page</h1>
           <p>
-            Username : <span>{userData.name}</span>{" "}
+            Username : <span>{userData.realName}</span>{" "}
           </p>
           <p>
             Email : <span>{userData.email}</span>{" "}
